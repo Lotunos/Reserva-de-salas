@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import resersa.salas.DTO.ReservaDTO;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -32,4 +33,11 @@ public class ReservaModel {
     @ManyToOne
     @JoinColumn(name = "id_sala", nullable = false)
     private SalaModel sala;
+    public ReservaModel(ReservaDTO dto){
+        this.responsavel = dto.getResponsavel();
+        this.data = dto.getData();
+        this.inicio = dto.getInicio();
+        this.fim = dto.getFim();
+        this.observacao = dto.getObservacao();
+    }
 }
