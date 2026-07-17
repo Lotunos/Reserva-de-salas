@@ -20,11 +20,13 @@ public class SalaService {
             model.setNome(dto.getNome());
             model.setCapacidade(dto.getCapacidade());
             dao.save(model);
+
             dto = new SalaDTO("Sala B", 10);
             SalaModel model1 = new SalaModel();
             model1.setNome(dto.getNome());
             model1.setCapacidade(dto.getCapacidade());
             dao.save(model1);
+            
             dto = new SalaDTO("Sala C", 20);
             SalaModel model2 = new SalaModel();
             model2.setNome(dto.getNome());
