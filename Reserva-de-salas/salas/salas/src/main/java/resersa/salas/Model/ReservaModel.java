@@ -12,7 +12,6 @@ import java.time.LocalTime;
 
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Table(name="reserva")
@@ -39,5 +38,9 @@ public class ReservaModel {
         this.inicio = dto.getInicio();
         this.fim = dto.getFim();
         this.observacao = dto.getObservacao();
+        this.sala = dto.getSala();
+    }
+    public ReservaModel(){
+
     }
 }

@@ -4,14 +4,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import resersa.salas.Model.SalaModel;
 import resersa.salas.Service.SalaService;
 
-@Controller
-@RestController("/sala")
+@RestController
+@RequestMapping("/sala")
 public class SalaControler {
-    private SalaService service;
+    private final SalaService service;
     public SalaControler(SalaService service){
         this.service = service;
     }

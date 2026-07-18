@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import resersa.salas.DAO.ReservaDAO;
 import resersa.salas.DTO.ReservaDTO;
 import resersa.salas.Model.ReservaModel;
-import resersa.salas.Model.SalaModel;
 
 import java.util.List;
 
@@ -16,18 +15,16 @@ public class ReservaService {
         this.dao = dao;
     }
     @Transactional
-    public String criarReserva(ReservaDTO dto, SalaModel sala){
-        try {
-            ReservaModel model = new ReservaModel(dto);
-            model.setSala(sala);
-            dao.save(model);
-        }catch(Exception e){
-            return "" + e;
-        }
-        return "Sucesso";
+    public ReservaModel criarReserva(ReservaDTO dto){
+        ReservaModel reserva = new ReservaModel(dto);
+        dao.save(reserva);
+        return reserva;
     }
     @Transactional
     public ReservaModel getReserva(int id){
+        if(dao.findById(id)==null) {
+            throw new IllegalArgumentException("Não existe reserva com esta id");
+        }
         return  dao.getById(id);
     }
     @Transactional
@@ -36,15 +33,16 @@ public class ReservaService {
     }
     @Transactional
     public String deletarReserva(int id){
-        try {
-            dao.deleteById(id);
-        }catch (Exception e){
-            return "" + e;
-        }
+        dao.deleteById(id);
         return "Sucesso";
     }
     @Transactional
     public String atualizarReserva(ReservaDTO dto){
+        if(dao.findById(dto.getIdReserva())==null) {
+            return "Não existe reserva com esta id";
+        }
+        dao.save(new ReservaModel(dto));
         return "Sucesso";
     }
+
 }
