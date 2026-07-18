@@ -18,7 +18,6 @@ import java.time.LocalTime;
 @Getter
 @Setter
 public class ReservaDTO {
-    private int idReserva;
     @NotNull
     @Size(max=100)
     private String responsavel;
@@ -35,5 +34,5 @@ public class ReservaDTO {
     @NotNull
     private String observacao;
     @NotNull
-    private SalaModel sala;
+    private Integer idSala;
 }
