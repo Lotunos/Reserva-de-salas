@@ -4,11 +4,15 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import resersa.salas.DAO.ReservaDAO;
 import resersa.salas.DAO.SalaDAO;
-import resersa.salas.DTO.ReservaDTO;
+import resersa.salas.DTO.ReservaInputDTO;
 import resersa.salas.Model.ReservaModel;
 import resersa.salas.Model.SalaModel;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReservaService {
@@ -19,9 +23,13 @@ public class ReservaService {
         this.saladao = saladao;
     }
     @Transactional
-    public ReservaModel criarReserva(ReservaDTO dto){
+    public ReservaModel criarReserva(ReservaInputDTO dto){
         SalaModel salaEncontrada = saladao.findById(dto.getIdSala())
                 .orElseThrow(()->new RuntimeException("Sala não encontrada"));
+        List<ReservaInputDTO> listaReserva = new ArrayList<>(
+                reservadao.findByDataAndSala(dto.getData(), salaEncontrada)
+        );
+
         ReservaModel novaReserva = new ReservaModel();
         novaReserva.setResponsavel(dto.getResponsavel());
         novaReserva.setData(dto.getData());
@@ -31,15 +39,25 @@ public class ReservaService {
         novaReserva.setSala(salaEncontrada);
         return reservadao.save(novaReserva);
     }
-    /*@Transactional
-    public ReservaModel atualizarReserva(ReservaDTO dto){
-        ReservaModel reserva = new ReservaModel(dto);
-        reservadao.save(reserva);
-        return reserva;
+    @Transactional
+    public ReservaModel atualizarReserva(ReservaInputDTO dto){
+        SalaModel salaEncontrada = saladao.findById(dto.getIdSala())
+                .orElseThrow(()->new RuntimeException("Sala não encontrada"));
+
+        ReservaModel novaReserva = reservadao.findById(dto.getIdReserva())
+                .orElseThrow(()->new RuntimeException("Reserva não encontrada"));
+
+        novaReserva.setResponsavel(dto.getResponsavel());
+        novaReserva.setData(dto.getData());
+        novaReserva.setInicio(dto.getInicio());
+        novaReserva.setFim(dto.getFim());
+        novaReserva.setObservacao(dto.getObservacao());
+        novaReserva.setSala(salaEncontrada);
+        return reservadao.save(novaReserva);
     }
     @Transactional
-    public ReservaModel getReserva(int id){
-        return  reservadao.getById(id);
+    public Optional<ReservaModel> getReserva(int id){
+        return reservadao.findById(id);
     }
     @Transactional
     public List<ReservaModel> getAllReserva(){
@@ -48,7 +66,49 @@ public class ReservaService {
     @Transactional
     public void deletarReserva(int id){
         reservadao.deleteById(id);
-    }*/
+    }
+    //TODO: Lembrar de apagar esta rota quando finalizar o projeto
+    @Transactional
+    public void inserirEmLot(){
+        LocalDate dataPadrao = LocalDate.parse("2026-07-18");
+
+        SalaModel sala1 = new SalaModel();
+        sala1.setIdSala(1);
+        ReservaModel reserva1 = new ReservaModel();
+        reserva1.setResponsavel("Carlos Mendes");
+        reserva1.setData(dataPadrao);
+        reserva1.setInicio(LocalTime.of(9, 0));
+        reserva1.setFim(LocalTime.of(10, 30));
+        reserva1.setObservacao("Reunião de alinhamento semanal");
+        reserva1.setSala(sala1);
+        reservadao.save(reserva1);
+
+        dataPadrao = LocalDate.parse("2026-07-18");
+        SalaModel sala2 = new SalaModel();
+        sala2.setIdSala(1);
+        ReservaModel reserva2 = new ReservaModel();
+        reserva2.setResponsavel("Carlos Mendes de Sá");
+        reserva2.setData(dataPadrao);
+        reserva2.setInicio(LocalTime.of(11,00 ));
+        reserva2.setFim(LocalTime.of(12, 30));
+        reserva2.setObservacao("Reunião de alinhamento semanal 2º temporada");
+        reserva2.setSala(sala2);
+        reservadao.save(reserva2);
+
+        dataPadrao = LocalDate.parse("2026-07-18");
+        SalaModel sala3 = new SalaModel();
+        sala3.setIdSala(1);
+        ReservaModel reserva3 = new ReservaModel();
+        reserva3.setResponsavel("Carlos Mendes de Sá Filho");
+        reserva3.setData(dataPadrao);
+        reserva3.setInicio(LocalTime.of(13, 0));
+        reserva3.setFim(LocalTime.of(14, 30));
+        reserva3.setObservacao("Reunião de alinhamento semanal 3º temporada");
+        reserva3.setSala(sala3);
+        reservadao.save(reserva3);
+
+
+    }
 
 
 }

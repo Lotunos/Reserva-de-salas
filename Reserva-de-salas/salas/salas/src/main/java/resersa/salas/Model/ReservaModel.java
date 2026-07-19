@@ -1,12 +1,12 @@
 package resersa.salas.Model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import resersa.salas.DTO.ReservaDTO;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -27,6 +27,7 @@ public class ReservaModel {
     private String responsavel;
 
     @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate data;
 
     @Column(nullable=false)

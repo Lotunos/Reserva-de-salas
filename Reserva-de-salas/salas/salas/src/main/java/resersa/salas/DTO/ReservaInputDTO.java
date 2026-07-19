@@ -17,7 +17,8 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ReservaDTO {
+public class ReservaInputDTO {
+    private Integer idReserva;
     @NotNull
     @Size(max=100)
     private String responsavel;

@@ -20,8 +20,6 @@ public class SalaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idSala;
-
-
     @Column(nullable = false, length = 100)
     private String nome;
     @Column(nullable = false, length = 100)
