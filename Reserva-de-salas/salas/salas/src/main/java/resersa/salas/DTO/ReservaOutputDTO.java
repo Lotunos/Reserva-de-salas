@@ -24,7 +24,7 @@ public class ReservaOutputDTO {
         @NotNull
         @JsonFormat(pattern = "HH:mm")
         private LocalTime fim;
-        @NotNull
+
         private String observacao;
         @NotNull
         private SalaModel sala;

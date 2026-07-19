@@ -20,17 +20,13 @@ public class ReservaController {
     }
     @PostMapping("/criarreserva")
     public ResponseEntity<String> criarReserva(@RequestBody ReservaInputDTO dto) {
-        ReservaModel model = service.criarReserva(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Sucesso");
+        String resposta = service.criarReserva(dto);
+        return ResponseEntity.ok(resposta);
     }
     @PutMapping("/atualizarreserva")
     public ResponseEntity<String> atualizarReserva(@RequestBody ReservaInputDTO dto) {
-     try{
-        ReservaModel model = service.atualizarReserva(dto);
-        return ResponseEntity.status(HttpStatus.OK).body("Atualizado");
-        } catch(Exception e){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(""+e);
-        }
+        String resposta = service.atualizarReserva(dto);
+        return ResponseEntity.ok(resposta);
     }
     @DeleteMapping("/deletarreserva/{id}")
     public ResponseEntity<String> deletarReserva(@PathVariable int id){
@@ -47,9 +43,10 @@ public class ReservaController {
         List model = new ArrayList(service.getAllReserva());
         return ResponseEntity.status(HttpStatus.OK).body(model);
     }
+    //TODO: Verificar o porque quando eu chamo o responseentity.status esta rota retorna 500 e 201 ao mesmo tempo
     @PostMapping("/inseriremlote")
-    public ResponseEntity<String> inseriremlote(){
+    public ResponseEntity<Void> inseriremlote(){
         service.inserirEmLot();
-        return ResponseEntity.status(HttpStatus.CREATED).body("Sucesso");
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 }

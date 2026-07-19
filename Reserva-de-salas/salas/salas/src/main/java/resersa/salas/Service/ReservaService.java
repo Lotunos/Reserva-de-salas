@@ -23,13 +23,12 @@ public class ReservaService {
         this.saladao = saladao;
     }
     @Transactional
-    public ReservaModel criarReserva(ReservaInputDTO dto){
-        SalaModel salaEncontrada = saladao.findById(dto.getIdSala())
-                .orElseThrow(()->new RuntimeException("Sala não encontrada"));
-        List<ReservaInputDTO> listaReserva = new ArrayList<>(
-                reservadao.findByDataAndSala(dto.getData(), salaEncontrada)
-        );
-
+    public String criarReserva(ReservaInputDTO dto){
+        String validacao = validacao(dto);
+        if(!validacao.equals("ok")){
+            return validacao;
+        }
+        SalaModel salaEncontrada = saladao.getReferenceById(dto.getIdSala());
         ReservaModel novaReserva = new ReservaModel();
         novaReserva.setResponsavel(dto.getResponsavel());
         novaReserva.setData(dto.getData());
@@ -37,23 +36,26 @@ public class ReservaService {
         novaReserva.setFim(dto.getFim());
         novaReserva.setObservacao(dto.getObservacao());
         novaReserva.setSala(salaEncontrada);
-        return reservadao.save(novaReserva);
+        reservadao.save(novaReserva);
+        return "Reserva criada com sucesso";
     }
     @Transactional
-    public ReservaModel atualizarReserva(ReservaInputDTO dto){
-        SalaModel salaEncontrada = saladao.findById(dto.getIdSala())
-                .orElseThrow(()->new RuntimeException("Sala não encontrada"));
-
+    public String atualizarReserva(ReservaInputDTO dto){
+        String validacao = validacao(dto);
+        if(!validacao.equals("ok")){
+            return validacao;
+        }
         ReservaModel novaReserva = reservadao.findById(dto.getIdReserva())
                 .orElseThrow(()->new RuntimeException("Reserva não encontrada"));
-
+        SalaModel salaEncontrada = saladao.getReferenceById(dto.getIdSala());
         novaReserva.setResponsavel(dto.getResponsavel());
         novaReserva.setData(dto.getData());
         novaReserva.setInicio(dto.getInicio());
         novaReserva.setFim(dto.getFim());
         novaReserva.setObservacao(dto.getObservacao());
         novaReserva.setSala(salaEncontrada);
-        return reservadao.save(novaReserva);
+        reservadao.save(novaReserva);
+        return validacao;
     }
     @Transactional
     public Optional<ReservaModel> getReserva(int id){
@@ -107,8 +109,28 @@ public class ReservaService {
         reserva3.setSala(sala3);
         reservadao.save(reserva3);
 
-
     }
-
+    public String validacao(ReservaInputDTO dto){
+        Optional<SalaModel> reserva = saladao.findById(dto.getIdSala());
+        if(reserva.isEmpty()){
+            return "Sala não encontrada";
+        }
+        if(dto.getInicio().isAfter(dto.getFim()) || dto.getInicio().equals(dto.getFim())){
+            return "A o início da reserva não pode ser igual ou superior ao fim da reserva";
+        }
+        List<ReservaModel> listaReserva = new ArrayList<>(
+                reservadao.findBySalaIdSalaAndData(dto.getIdSala(),dto.getData())
+        );
+        boolean existeConflito = listaReserva.stream()
+                .anyMatch(hora ->
+                        (dto.getInicio().equals(hora.getInicio()) ||
+                                dto.getInicio().isAfter(hora.getInicio()))
+                                && dto.getInicio().isBefore(hora.getFim())
+                );
+        if (existeConflito) {
+            return "Já existe uma reserva nesse horário.";
+        }
+        return "ok";
+    }
 
 }

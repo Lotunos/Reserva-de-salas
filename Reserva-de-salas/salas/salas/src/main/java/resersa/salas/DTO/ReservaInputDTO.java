@@ -32,7 +32,7 @@ public class ReservaInputDTO {
     @NotNull
     @JsonFormat(pattern = "HH:mm")
     private LocalTime fim;
-    @NotNull
+
     private String observacao;
     @NotNull
     private Integer idSala;

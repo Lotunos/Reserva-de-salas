@@ -36,7 +36,7 @@ public class ReservaModel {
     @Column(nullable=false)
     private LocalTime fim;
 
-    @Column(nullable=false)
+
     private String observacao;
 
     @ManyToOne(fetch = FetchType.EAGER)
