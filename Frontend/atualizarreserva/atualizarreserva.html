@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atualizar Reserva de Sala</title>
+    <link rel="stylesheet" href="atualizarreserva.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Atualizar Reserva</h2>
+    
+    <form id="formAtualizacao">
+        
+        <!-- ID da Reserva (Obrigatório para saber qual atualizar) -->
+        <div class="form-group">
+            <label for="idReserva">ID da Reserva a ser Atualizada *</label>
+            <input type="number" id="idReserva" name="idReserva" required min="1" placeholder="Ex: 15">
+        </div>
+
+        <hr class="divisor">
+
+        <!-- Dropdown de Salas -->
+        <div class="form-group">
+            <label for="idSala">Selecione a Nova Sala *</label>
+            <select id="idSala" name="idSala" required>
+                <option value="" disabled selected>Carregando salas...</option>
+            </select>
+        </div>
+
+        <!-- Campos de detalhes da Sala (Leitura) -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="detalheNome">Nome da Sala</label>
+                <input type="text" id="detalheNome" readonly placeholder="Nenhuma sala selecionada">
+            </div>
+            <div class="form-group">
+                <label for="detalheCapacidade">Capacidade</label>
+                <input type="text" id="detalheCapacidade" readonly placeholder="-">
+            </div>
+        </div>
+
+        <!-- Responsável -->
+        <div class="form-group">
+            <label for="responsavel">Novo Responsável *</label>
+            <input type="text" id="responsavel" name="responsavel" required maxlength="100" placeholder="Nome do responsável">
+        </div>
+
+        <!-- Data -->
+        <div class="form-group">
+            <label for="data">Nova Data *</label>
+            <input type="date" id="data" name="data" required>
+        </div>
+
+        <!-- Horários -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="inicio">Horário de Início *</label>
+                <input type="time" id="inicio" name="inicio" required>
+            </div>
+
+            <div class="form-group">
+                <label for="fim">Horário de Fim *</label>
+                <input type="time" id="fim" name="fim" required>
+            </div>
+        </div>
+
+        <!-- Observação -->
+        <div class="form-group">
+            <label for="observacao">Observação</label>
+            <textarea id="observacao" name="observacao" placeholder="Atualize a observação se necessário..."></textarea>
+        </div>
+
+        <button type="submit">Atualizar Reserva</button>
+    </form>
+</div>
+
+<script src="../js/atualizarreservas.js"></script>
+</body>
+</html>

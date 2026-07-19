@@ -6,6 +6,8 @@ import resersa.salas.DAO.SalaDAO;
 import resersa.salas.DTO.SalaDTO;
 import resersa.salas.Model.SalaModel;
 
+import java.util.List;
+
 @Service
 public class SalaService {
     private SalaDAO dao;
@@ -43,6 +45,8 @@ public class SalaService {
         }
         return "Sucesso";
     }
-
+    public List<SalaModel> getAllSala(){
+        return dao.findAll();
+    }
 
 }

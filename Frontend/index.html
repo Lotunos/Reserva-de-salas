@@ -4,8 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserva de Salas</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
+    <div class="container">
+
+        <div class="linha">
+            <button onClick="window.location.href='../Frontend/inserirreserva/inserirreserva.html'">Inserir Reserva</button>
+            <button onClick="window.location.href='../Frontend/atualizarreserva/atualizarreserva.html'">Atualizar Reserva</button>
+        </div>
+
+        <div class="linha">
+            <button>Excluir Reserva</button>
+            <button>Buscar Reserva</button>           
+        </div>
+
+        <div class="linha">
+            <button>Listar Todas as Reservas</button>
+            <button id="alimentar">Alimentar o Banco Com as Salas</button>
+        </div>
+
+    </div>
     
 </body>
+    <script src="js/carregarsalas.js"></script>
 </html>
