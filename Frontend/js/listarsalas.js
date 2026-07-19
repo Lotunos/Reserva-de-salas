@@ -94,6 +94,9 @@ function configurarEnvioFormulario() {
         .then(response => response.text())
         .then(mensagem =>{
         alert(mensagem);
+        if(mensagem.includes("ok")) {
+            window.location.href = "../index.html";
+        }
         })
     });
 }

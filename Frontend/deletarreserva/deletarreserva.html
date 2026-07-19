@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancelar Reserva de Sala</title>
+    <link rel="stylesheet" href="deletarreserva.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Cancelar Reserva</h2>
+    <p class="subtitulo">Insira o ID do agendamento que deseja remover do sistema.</p>
+    
+    <form id="formDelecao">
+        <!-- ID da Reserva -->
+        <div class="form-group">
+            <label for="idReserva">ID da Reserva *</label>
+            <input type="number" id="idReserva" name="idReserva" required min="1" placeholder="Ex: 10">
+        </div>
+
+        <!-- Botão de exclusão com estilo de aviso -->
+        <button type="submit" class="btn-deletar">Excluir Reserva</button>
+    </form>
+</div>
+
+<script src="/Frontend/js/deletarreserva.js"></script>
+</body>
+</html>

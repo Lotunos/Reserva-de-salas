@@ -10,6 +10,7 @@ import resersa.salas.Model.SalaModel;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +38,7 @@ public class ReservaService {
         novaReserva.setObservacao(dto.getObservacao());
         novaReserva.setSala(salaEncontrada);
         reservadao.save(novaReserva);
-        return "Reserva criada com sucesso";
+        return validacao;
     }
     @Transactional
     public String atualizarReserva(ReservaInputDTO dto){
@@ -66,8 +67,14 @@ public class ReservaService {
         return reservadao.findAll();
     }
     @Transactional
-    public void deletarReserva(int id){
+    public String deletarReserva(int id){
+        Optional<ReservaModel> reserva = getReserva(id);
+        if(reserva.isEmpty()){
+            return "Reserva não encontrada";
+        }
         reservadao.deleteById(id);
+        return "ok";
+
     }
     //TODO: Lembrar de apagar esta rota quando finalizar o projeto
     @Transactional
@@ -121,14 +128,20 @@ public class ReservaService {
         List<ReservaModel> listaReserva = new ArrayList<>(
                 reservadao.findBySalaIdSalaAndData(dto.getIdSala(),dto.getData())
         );
-        boolean existeConflito = listaReserva.stream()
-                .anyMatch(hora ->
-                        (dto.getInicio().equals(hora.getInicio()) ||
-                                dto.getInicio().isAfter(hora.getInicio()))
-                                && dto.getInicio().isBefore(hora.getFim())
-                );
-        if (existeConflito) {
-            return "Já existe uma reserva nesse horário.";
+        Optional<ReservaModel> existeConflito = listaReserva.stream()
+                .filter(id->!id.getIdreserva().equals(dto.getIdReserva()))
+                .filter( hora ->
+                         dto.getInicio().isBefore(hora.getFim()) &&
+                         dto.getFim().isAfter(hora.getInicio())
+                ).findFirst();
+        if (existeConflito.isPresent()) {
+            return String.format(
+                    "Já existe uma reserva nesse horário!\nResponsável: %s\nData: %s\nInício: %s\nFim: %s",
+                    existeConflito.get().getResponsavel(),
+                    existeConflito.get().getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")),
+                    existeConflito.get().getInicio(),
+                    existeConflito.get().getFim()
+            );
         }
         return "ok";
     }

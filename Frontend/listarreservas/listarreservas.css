@@ -1,0 +1,79 @@
+body {
+    margin: 0;
+    height: 100vh;
+
+    background-image: url(/Frontend/imagens/casal.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
+.container-completo {
+    width: 100%;
+    max-width: 1000px; /* Mais larga para caber todas as colunas lado a lado */
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin: 0 auto;
+}
+
+h2 {
+    margin-top: 0;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.subtitulo {
+    color: #6c757d;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+/* Evita que a tabela quebre o layout em telas menores */
+.tabela-responsiva {
+    overflow-x: auto;
+}
+
+.tabela-listagem {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.tabela-listagem th, 
+.tabela-listagem td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 14px;
+}
+
+.tabela-listagem th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+/* Efeito zebrado: Linhas alternadas ganham uma cor de fundo suave */
+.tabela-listagem tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.tabela-listagem tbody tr:hover {
+    background-color: #f1f3f5; /* Efeito visual ao passar o mouse */
+}
+
+.mensagem-tabela {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 30px !important;
+}

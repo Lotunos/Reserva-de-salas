@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Reserva de Sala</title>
+    <link rel="stylesheet" href="buscarreserva.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Consultar Reserva</h2>
+    <p class="subtitulo">Insira o ID do agendamento para visualizar os detalhes.</p>
+    
+    <form id="formConsulta">
+        <div class="form-group">
+            <label for="idReserva">ID da Reserva *</label>
+            <div class="search-box">
+                <input type="number" id="idReserva" name="idReserva" required min="1" placeholder="Ex: 2">
+                <button type="submit" class="btn-buscar">Buscar</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Tabela que começará escondida e aparecerá após a busca -->
+    <div id="resultadoConsulta" class="resultado-container hidden">
+        <h3>Detalhes do Agendamento</h3>
+        <table class="tabela-dados">
+            <tbody>
+                <tr>
+                    <th>ID Reserva</th>
+                    <td id="res-id">-</td>
+                </tr>
+                <tr>
+                    <th>Responsável</th>
+                    <td id="res-responsavel">-</td>
+                </tr>
+                <tr>
+                    <th>Data</th>
+                    <td id="res-data">-</td>
+                </tr>
+                <tr>
+                    <th>Horário</th>
+                    <td id="res-horario">-</td>
+                </tr>
+                <tr>
+                    <th>Sala Reservada</th>
+                    <td id="res-sala">-</td>
+                </tr>
+                <tr>
+                    <th>Capacidade da Sala</th>
+                    <td id="res-capacidade">-</td>
+                </tr>
+                <tr>
+                    <th>Observação</th>
+                    <td id="res-observacao">-</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/Frontend/js/buscarreserva.js"></script>
+</body>
+</html>

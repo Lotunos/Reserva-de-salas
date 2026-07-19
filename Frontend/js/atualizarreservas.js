@@ -56,7 +56,6 @@ function configurarEnvioFormulario() {
 
         const dataInput = document.getElementById("data").value;
         
-        // Formata a data de YYYY-MM-DD para dd-MM-yyyy conforme o Spring espera
         let dataFormatada = "";
         if (dataInput) {
             const [ano, mes, dia] = dataInput.split("-");
@@ -74,9 +73,8 @@ function configurarEnvioFormulario() {
             observacao: document.getElementById("observacao").value
         };
 
-        // Envia para a rota de atualização
         fetch("http://localhost:8080/Reserva/atualizarreserva", {
-            method: "PUT", // Usando PUT que é o padrão para atualizações
+            method: "PUT", 
             headers: {
                 "Content-Type": "application/json"
             },
@@ -85,6 +83,9 @@ function configurarEnvioFormulario() {
         .then(response => response.text())
         .then(mensagem =>{
         alert(mensagem);
+        if(mensagem.includes("ok")) {
+        window.location.href = "../index.html";
+        }
         })
     });
 }

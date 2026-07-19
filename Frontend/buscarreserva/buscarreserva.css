@@ -1,0 +1,127 @@
+body {
+    margin: 0;
+    height: 100vh;
+
+    background-image: url(/Frontend/imagens/casal.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin: 0 auto;
+}
+
+h2 {
+    margin-top: 0;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.subtitulo {
+    color: #6c757d;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #495057;
+    font-size: 14px;
+}
+
+/* Coloca o input e o botão de buscar na mesma linha */
+.search-box {
+    display: flex;
+    gap: 10px;
+}
+
+input[type="number"] {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.btn-buscar {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-buscar:hover {
+    background-color: #0056b3;
+}
+
+/* Estilização da área de resultado e tabela */
+.resultado-container {
+    margin-top: 30px;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.resultado-container h3 {
+    color: #333;
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+.tabela-dados {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.tabela-dados th, .tabela-dados td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 15px;
+}
+
+.tabela-dados th {
+    background-color: #f8f9fa;
+    color: #495057;
+    width: 35%;
+    font-weight: bold;
+}
+
+.tabela-dados td {
+    color: #212529;
+}
+
+/* Classe utilitária para esconder a tabela antes da busca */
+.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

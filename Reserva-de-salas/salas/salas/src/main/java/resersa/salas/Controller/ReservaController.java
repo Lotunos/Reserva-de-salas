@@ -30,8 +30,8 @@ public class ReservaController {
     }
     @DeleteMapping("/deletarreserva/{id}")
     public ResponseEntity<String> deletarReserva(@PathVariable int id){
-        service.deletarReserva(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Deleção concluida");
+        String remover = service.deletarReserva(id);
+        return ResponseEntity.status(HttpStatus.OK).body(remover);
     }
     @GetMapping("/getreserva/{id}")
     public ResponseEntity<Optional<ReservaModel>> getReserva(@PathVariable Integer id){
