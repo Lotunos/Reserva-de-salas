@@ -43,6 +43,11 @@ public class ReservaController {
         List model = new ArrayList(service.getAllReserva());
         return ResponseEntity.status(HttpStatus.OK).body(model);
     }
+    @GetMapping("/getallreservadata")
+    public ResponseEntity<List<ReservaModel>> getReservaData(){
+        List model = new ArrayList(service.getAllReservaData());
+        return ResponseEntity.status(HttpStatus.OK).body(model);
+    }
     //TODO: Verificar o porque quando eu chamo o responseentity.status esta rota retorna 500 e 201 ao mesmo tempo
     @PostMapping("/inseriremlote")
     public ResponseEntity<Void> inseriremlote(){

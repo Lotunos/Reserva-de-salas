@@ -67,6 +67,10 @@ public class ReservaService {
         return reservadao.findAll();
     }
     @Transactional
+    public List<ReservaModel> getAllReservaData(){
+        return reservadao.findAllByOrderBySalaIdSalaAscDataAscInicioAsc();
+    }
+    @Transactional
     public String deletarReserva(int id){
         Optional<ReservaModel> reserva = getReserva(id);
         if(reserva.isEmpty()){
@@ -79,7 +83,7 @@ public class ReservaService {
     //TODO: Lembrar de apagar esta rota quando finalizar o projeto
     @Transactional
     public void inserirEmLot(){
-        LocalDate dataPadrao = LocalDate.parse("2026-07-18");
+        LocalDate dataPadrao = LocalDate.parse("2026-07-22");
 
         SalaModel sala1 = new SalaModel();
         sala1.setIdSala(1);
@@ -92,7 +96,7 @@ public class ReservaService {
         reserva1.setSala(sala1);
         reservadao.save(reserva1);
 
-        dataPadrao = LocalDate.parse("2026-07-18");
+        dataPadrao = LocalDate.parse("2026-12-18");
         SalaModel sala2 = new SalaModel();
         sala2.setIdSala(1);
         ReservaModel reserva2 = new ReservaModel();
@@ -104,7 +108,7 @@ public class ReservaService {
         reserva2.setSala(sala2);
         reservadao.save(reserva2);
 
-        dataPadrao = LocalDate.parse("2026-07-18");
+        dataPadrao = LocalDate.parse("2025-07-18");
         SalaModel sala3 = new SalaModel();
         sala3.setIdSala(1);
         ReservaModel reserva3 = new ReservaModel();
