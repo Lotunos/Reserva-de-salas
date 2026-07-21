@@ -45,8 +45,13 @@ public class SalaService {
         }
         return "Sucesso";
     }
+    @Transactional
     public List<SalaModel> getAllSala(){
         return dao.findAll();
+    }
+    @Transactional
+    public SalaModel getSala(int id){
+        return dao.getReferenceById(id);
     }
 
 }

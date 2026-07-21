@@ -14,5 +14,6 @@ import java.util.List;
 public interface ReservaDAO extends JpaRepository<ReservaModel, Integer> {
     List<ReservaModel> findBySalaIdSalaAndData(Integer idSala,LocalDate data);
     List<ReservaModel> findAllByOrderBySalaIdSalaAscDataAscInicioAsc();
+    List<ReservaModel> findAllByDataOrderByInicioAsc(LocalDate data);
 
 }

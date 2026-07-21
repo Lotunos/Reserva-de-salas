@@ -1,6 +1,10 @@
 package resersa.salas.Service;
 
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import resersa.salas.DAO.ReservaDAO;
 import resersa.salas.DAO.SalaDAO;
@@ -18,8 +22,9 @@ import java.util.Optional;
 
 @Service
 public class ReservaService {
-    private ReservaDAO reservadao;
-    private SalaDAO saladao;
+    private final ReservaDAO reservadao;
+    private final SalaDAO saladao;
+    private boolean verificador=false;
     public ReservaService(ReservaDAO reservadao, SalaDAO saladao){
         this.reservadao = reservadao;
         this.saladao = saladao;
@@ -72,7 +77,7 @@ public class ReservaService {
                 .toList();
     }
     @Transactional
-    public List<ReservaOutputDTO> getAllReservaData(){
+    public List<ReservaOutputDTO> getAllReservaDataIdSala(){
         return reservadao.findAllByOrderBySalaIdSalaAscDataAscInicioAsc()
                 .stream()
                 .map(this::converterParaDTO)
@@ -88,46 +93,123 @@ public class ReservaService {
         return "ok";
 
     }
-    //TODO: Lembrar de apagar esta rota quando finalizar o projeto
     @Transactional
-    public void inserirEmLot(){
-        LocalDate dataPadrao = LocalDate.parse("2026-07-22");
+    public List<ReservaOutputDTO> getAllReservaByData(String data){
+        LocalDate dataFormatada = LocalDate.parse(data,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        return reservadao.findAllByDataOrderByInicioAsc(dataFormatada).stream()
+                .map(this::converterParaDTO)
+                .toList();
+    }
+    @Transactional
+    public Page<ReservaOutputDTO> getAllReservaPaginacao(int pagina, int tamanho){
+        Pageable page = PageRequest.of(
+                pagina,
+                tamanho,
+                Sort.by("idreserva")
+        );
+        return reservadao.findAll(page).map(this::converterParaDTO);
+    }
+    //TODO: Lembrar de apagar esta rota quando finalizar o projeto
+    private void criarReserva(
+            int idSala,
+            String responsavel,
+            String data,
+            int horaInicio,
+            int minutoInicio,
+            int horaFim,
+            int minutoFim,
+            String observacao) {
 
-        SalaModel sala1 = new SalaModel();
-        sala1.setIdSala(1);
-        ReservaModel reserva1 = new ReservaModel();
-        reserva1.setResponsavel("Carlos Mendes");
-        reserva1.setData(dataPadrao);
-        reserva1.setInicio(LocalTime.of(9, 0));
-        reserva1.setFim(LocalTime.of(10, 30));
-        reserva1.setObservacao("Reunião de alinhamento semanal");
-        reserva1.setSala(sala1);
-        reservadao.save(reserva1);
 
-        dataPadrao = LocalDate.parse("2026-12-18");
-        SalaModel sala2 = new SalaModel();
-        sala2.setIdSala(1);
-        ReservaModel reserva2 = new ReservaModel();
-        reserva2.setResponsavel("Carlos Mendes de Sá");
-        reserva2.setData(dataPadrao);
-        reserva2.setInicio(LocalTime.of(11,00 ));
-        reserva2.setFim(LocalTime.of(12, 30));
-        reserva2.setObservacao("Reunião de alinhamento semanal 2º temporada");
-        reserva2.setSala(sala2);
-        reservadao.save(reserva2);
+        SalaModel sala = new SalaModel();
+        sala.setIdSala(idSala);
 
-        dataPadrao = LocalDate.parse("2025-07-18");
-        SalaModel sala3 = new SalaModel();
-        sala3.setIdSala(1);
-        ReservaModel reserva3 = new ReservaModel();
-        reserva3.setResponsavel("Carlos Mendes de Sá Filho");
-        reserva3.setData(dataPadrao);
-        reserva3.setInicio(LocalTime.of(13, 0));
-        reserva3.setFim(LocalTime.of(14, 30));
-        reserva3.setObservacao("Reunião de alinhamento semanal 3º temporada");
-        reserva3.setSala(sala3);
-        reservadao.save(reserva3);
+        ReservaModel reserva = new ReservaModel();
+        reserva.setResponsavel(responsavel);
+        reserva.setData(LocalDate.parse(data));
+        reserva.setInicio(LocalTime.of(horaInicio, minutoInicio));
+        reserva.setFim(LocalTime.of(horaFim, minutoFim));
+        reserva.setObservacao(observacao);
+        reserva.setSala(sala);
 
+        reservadao.save(reserva);
+    }
+    @Transactional
+    public String inserirEmLote() {
+        if(verificador==true) {
+            return "A inserção dos dados só pode ser feita uma vez por sessão";
+        }
+
+        criarReserva(1, "Carlos Mendes", "2026-07-22", 9, 0, 10, 30,
+                "Reunião de alinhamento semanal");
+
+        criarReserva(1, "Carlos Mendes de Sá", "2026-12-18", 11, 0, 12, 30,
+                "Reunião de alinhamento semanal 2ª temporada");
+
+        criarReserva(1, "Carlos Mendes de Sá Filho", "2025-07-18", 13, 0, 14, 30,
+                "Reunião de alinhamento semanal 3ª temporada");
+
+        criarReserva(2, "Ana Paula Souza", "2026-07-22", 8, 0, 9, 0,
+                "Treinamento de equipe");
+
+        criarReserva(3, "Marcos Oliveira", "2026-07-22", 9, 30, 10, 30,
+                "Entrevista de candidatos");
+
+        criarReserva(1, "Fernanda Lima", "2026-07-23", 14, 0, 15, 0,
+                "Planejamento financeiro");
+
+        criarReserva(2, "Ricardo Gomes", "2026-07-23", 15, 0, 16, 30,
+                "Apresentação comercial");
+
+        criarReserva(3, "Juliana Castro", "2026-07-24", 10, 0, 11, 0,
+                "Workshop interno");
+
+        criarReserva(1, "Paulo Henrique", "2026-07-24", 11, 30, 12, 30,
+                "Revisão de contratos");
+
+        criarReserva(2, "Camila Rocha", "2026-07-24", 13, 30, 15, 0,
+                "Reunião com fornecedores");
+
+        criarReserva(3, "Eduardo Nunes", "2026-07-25", 8, 30, 9, 30,
+                "Treinamento operacional");
+
+        criarReserva(1, "Larissa Almeida", "2026-07-25", 10, 0, 11, 30,
+                "Revisão de projeto");
+
+        criarReserva(2, "Roberto Silva", "2026-07-25", 14, 0, 16, 0,
+                "Definição de orçamento");
+
+        criarReserva(3, "Patrícia Costa", "2026-07-26", 9, 0, 10, 0,
+                "Reunião estratégica");
+
+        criarReserva(1, "Lucas Ferreira", "2026-07-26", 10, 30, 12, 0,
+                "Sprint Planning");
+
+        criarReserva(2, "Beatriz Santos", "2026-07-26", 13, 0, 14, 30,
+                "Treinamento de integração");
+
+        criarReserva(3, "Daniel Martins", "2026-07-27", 8, 0, 9, 30,
+                "Alinhamento de TI");
+
+        criarReserva(1, "Gabriela Moreira", "2026-07-27", 9, 30, 11, 0,
+                "Apresentação de resultados");
+
+        criarReserva(2, "Renato Almeida", "2026-07-27", 11, 30, 12, 30,
+                "Reunião jurídica");
+
+        criarReserva(3, "Vanessa Ribeiro", "2026-07-28", 14, 0, 15, 30,
+                "Capacitação");
+
+        criarReserva(1, "Felipe Andrade", "2026-07-28", 15, 30, 17, 0,
+                "Discussão de arquitetura");
+
+        criarReserva(2, "Mariana Duarte", "2026-07-29", 9, 0, 10, 30,
+                "Planejamento trimestral");
+
+        criarReserva(3, "Thiago Barros", "2026-07-29", 11, 0, 12, 0,
+                "Reunião com clientes");
+        verificador = true;
+        return "ok";
     }
     //TODO: Talvez seja melhor colocar estes metodos em uma classe separada
     private String validacao(ReservaInputDTO dto){
