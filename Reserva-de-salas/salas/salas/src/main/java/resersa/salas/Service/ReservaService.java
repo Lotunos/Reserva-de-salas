@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import resersa.salas.DAO.ReservaDAO;
 import resersa.salas.DAO.SalaDAO;
 import resersa.salas.DTO.ReservaInputDTO;
+import resersa.salas.DTO.ReservaOutputDTO;
 import resersa.salas.Model.ReservaModel;
 import resersa.salas.Model.SalaModel;
 
@@ -59,21 +60,28 @@ public class ReservaService {
         return validacao;
     }
     @Transactional
-    public Optional<ReservaModel> getReserva(int id){
-        return reservadao.findById(id);
+    public ReservaOutputDTO getReserva(int id){
+        ReservaModel model = reservadao.findById(id).get();
+        return converterParaDTO(model);
     }
     @Transactional
-    public List<ReservaModel> getAllReserva(){
-        return reservadao.findAll();
+    public List<ReservaOutputDTO> getAllReserva() {
+        return reservadao.findAll()
+                .stream()
+                .map(this::converterParaDTO)
+                .toList();
     }
     @Transactional
-    public List<ReservaModel> getAllReservaData(){
-        return reservadao.findAllByOrderBySalaIdSalaAscDataAscInicioAsc();
+    public List<ReservaOutputDTO> getAllReservaData(){
+        return reservadao.findAllByOrderBySalaIdSalaAscDataAscInicioAsc()
+                .stream()
+                .map(this::converterParaDTO)
+                .toList();
     }
     @Transactional
     public String deletarReserva(int id){
-        Optional<ReservaModel> reserva = getReserva(id);
-        if(reserva.isEmpty()){
+        ReservaOutputDTO reserva = getReserva(id);
+        if(reserva == null){
             return "Reserva não encontrada";
         }
         reservadao.deleteById(id);
@@ -121,7 +129,8 @@ public class ReservaService {
         reservadao.save(reserva3);
 
     }
-    public String validacao(ReservaInputDTO dto){
+    //TODO: Talvez seja melhor colocar estes metodos em uma classe separada
+    private String validacao(ReservaInputDTO dto){
         Optional<SalaModel> reserva = saladao.findById(dto.getIdSala());
         if(reserva.isEmpty()){
             return "Sala não encontrada";
@@ -148,6 +157,18 @@ public class ReservaService {
             );
         }
         return "ok";
+    }
+    private ReservaOutputDTO converterParaDTO(ReservaModel model) {
+        ReservaOutputDTO dto = new ReservaOutputDTO();
+
+        dto.setIdReserva(model.getIdreserva());
+        dto.setResponsavel(model.getResponsavel());
+        dto.setData(model.getData());
+        dto.setInicio(model.getInicio());
+        dto.setFim(model.getFim());
+        dto.setObservacao(model.getObservacao());
+        dto.setSala(model.getSala());
+        return dto;
     }
 
 }

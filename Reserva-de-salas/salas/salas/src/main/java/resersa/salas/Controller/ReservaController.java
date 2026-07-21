@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import resersa.salas.DTO.ReservaInputDTO;
-import resersa.salas.Model.ReservaModel;
+import resersa.salas.DTO.ReservaOutputDTO;
 import resersa.salas.Service.ReservaService;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/Reserva")
 public class ReservaController {
-    private ReservaService service;
+    private final ReservaService service;
     public ReservaController(ReservaService service){
         this.service = service;
     }
@@ -34,24 +34,24 @@ public class ReservaController {
         return ResponseEntity.status(HttpStatus.OK).body(remover);
     }
     @GetMapping("/getreserva/{id}")
-    public ResponseEntity<Optional<ReservaModel>> getReserva(@PathVariable Integer id){
-        Optional<ReservaModel> model = service.getReserva(id);
+    public ResponseEntity<ReservaOutputDTO> getReserva(@PathVariable Integer id){
+        ReservaOutputDTO model = service.getReserva(id);
         return ResponseEntity.status(HttpStatus.OK).body(model);
     }
     @GetMapping("/getallreserva")
-    public ResponseEntity<List<ReservaModel>> getReserva(){
-        List model = new ArrayList(service.getAllReserva());
+    public ResponseEntity<List<ReservaOutputDTO>> getAllReserva(){
+        List<ReservaOutputDTO> model = service.getAllReserva();
         return ResponseEntity.status(HttpStatus.OK).body(model);
     }
     @GetMapping("/getallreservadata")
-    public ResponseEntity<List<ReservaModel>> getReservaData(){
-        List model = new ArrayList(service.getAllReservaData());
+    public ResponseEntity<List<ReservaOutputDTO>> getReservaData(){
+        List<ReservaOutputDTO> model = service.getAllReservaData();
         return ResponseEntity.status(HttpStatus.OK).body(model);
     }
     //TODO: Verificar o porque quando eu chamo o responseentity.status esta rota retorna 500 e 201 ao mesmo tempo
     @PostMapping("/inseriremlote")
     public ResponseEntity<Void> inseriremlote(){
         service.inserirEmLot();
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
