@@ -1,6 +1,23 @@
 # Reserva-de-salas
-Sistema de reservas de sala
+Sobre as questões no final do teste técnico:
+1. Quais foram as principais decisões técnicas adotadas durante o
+desenvolvimento?
+Serão explicadas mais abaixo durante a documentção do sistema. 
+2. Se tivesse mais tempo, o que você implementaria ou melhoraria?
+   Estudaria e implementaria os outros pontos:
+   Testes automatizados
+   Logs
+   Códigos HTTP apropriados
+   Autenticação
+   Cache  
+3. Você utilizou alguma ferramenta de IA durante o desenvolvimento?
+   Sim, tanto o chatgpt tanto o gemini, o sistema conta com um frontend feito em boa parte por ia.
+   Mas o maior uso foi para retirada de dúvidas com relação a sintaxe e algumas estruturas.
 <br>
+<br>
+Documentação
+<br>
+Sistema de reservas de sala
 <br>
 1 -Objetivo: montar um sistema para gerenciar reservas de salas. 
 <br>
