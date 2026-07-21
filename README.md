@@ -1,16 +1,16 @@
 # Reserva-de-salas
 Sobre as questões no final do teste técnico:
 1. Quais foram as principais decisões técnicas adotadas durante o
-desenvolvimento?
+desenvolvimento?<br>
 Serão explicadas mais abaixo durante a documentção do sistema. 
-2. Se tivesse mais tempo, o que você implementaria ou melhoraria?
-   Estudaria e implementaria os outros pontos:
-   Testes automatizados
-   Logs
-   Códigos HTTP apropriados
-   Autenticação
-   Cache  
-3. Você utilizou alguma ferramenta de IA durante o desenvolvimento?
+2. Se tivesse mais tempo, o que você implementaria ou melhoraria?<br>
+   Estudaria e implementaria os outros pontos:<br>
+   Testes automatizados<br>
+   Logs<br>
+   Códigos HTTP apropriados<br>
+   Autenticação<br>
+   Cache<br>
+3. Você utilizou alguma ferramenta de IA durante o desenvolvimento?<br>
    Sim, tanto o chatgpt tanto o gemini, o sistema conta com um frontend feito em boa parte por ia.
    Mas o maior uso foi para retirada de dúvidas com relação a sintaxe e algumas estruturas.
 <br>
